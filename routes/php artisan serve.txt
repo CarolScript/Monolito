@@ -1,0 +1,8 @@
+php artisan serve
+
+php artisan key:generate
+
+http://localhost/phpmyadmin
+
+
+php artisan php 
