@@ -1,33 +1,23 @@
 <?php
-
 namespace App\Http\Controllers;
-use App\Models\escola;
-use Inertia\Inertia;
-use App\Models\aluno;
-use App\Http\Requests\StorealunoRequest;
-use App\Http\Requests\UpdatealunoRequest;
 
 use Illuminate\Http\Request;
+use App\Models\Aluno; // Seu modelo de Aluno
+
+
 
 class AlunoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $alunos = Aluno::all();
-        return Inertia::render('Alunos/Index', [
-            'alunos' => $alunos,
-        ]);
-    }
-
+    
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('alunos.create');
+        return view ('alunos.create');
     }
 
     /**
@@ -35,22 +25,33 @@ class AlunoController extends Controller
      */
     public function store(Request $request)
     {
+      
         // Validação
      // Valida os dados do formulário
-     $request->validate([
-        'nome' => 'required|string|max:255',
-        'idade' => 'required|integer|min:1',
-    ]);
+     /*$request->validate([
+        'name' => 'required|String|max:255',
+       // 'email' => 'required|email|unique:alunos,email',
+        'data_nascimento'=> 'required|date',
+        'password'=> 'required|text',
+    ]);*/
 
     // Cria um novo aluno
-    Aluno::create([
-        'nome' => $request->nome,
-        'idade' => $request->idade,
-    ]);
+    Aluno::create($request-> all());
+
+      
+
 
     // Redireciona para a lista de alunos
     return redirect()->route('alunos.index')->with('success', 'Aluno cadastrado com sucesso!');
     }
+
+
+    public function index()
+    {
+       
+        return view('alunos');
+    }
+    
 
     /**
      * Display the specified resource.
@@ -65,9 +66,7 @@ class AlunoController extends Controller
      */
     public function edit(aluno $aluno)
     {
-        $aluno = Aluno::find($id);
-        $escolas = Escola::all(); // Para editar a escola do aluno
-        return view('alunos.edit', compact('aluno', 'escolas'));
+        
     }
 
     /**
@@ -75,13 +74,7 @@ class AlunoController extends Controller
      */
     public function update(UpdatealunoRequest $request, aluno $aluno)
     {
-        $aluno = Aluno::find($id);
-        $aluno->nome = $request->nome;
-        $aluno->idade = $request->idade;
-        $aluno->escola_id = $request->escola_id;
-        $aluno->save();
-
-        return redirect()->route('alunos.index');
+        
     }
 
     /**
@@ -89,9 +82,6 @@ class AlunoController extends Controller
      */
     public function destroy(aluno $aluno)
     {
-        $aluno = Aluno::find($id);
-        $aluno->delete();
-        
-        return redirect()->route('alunos.index');
+       
     }
 }

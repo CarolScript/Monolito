@@ -31,14 +31,18 @@ require __DIR__.'/auth.php';
 
 
 
-Route::get('invest', action :function(){
+Route::get('alunos', action :function(){
     
     $lista=\App\Models\User:: all();
     
-    return view ('minha-view', compact('lista'));
+    return view ('alunos', compact('lista'));
 
 });
 
+
+Route::get('/alunos', [AlunoController::class, 'index'])->name('alunos.index');
+//Route::get('/alunos/cadastrar', [AlunoController::class, 'create'])->name('alunos.create');
+//Route::post('/alunos', [AlunoController::class, 'store'])->name('alunos.store');
 
 
 Route::resource('escolas', EscolaController::class);
